@@ -24,6 +24,7 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.fisco.bcos.web3j.protocol.core.methods.response.NodeVersion;
+import org.fisco.bcos.web3j.protocol.core.methods.response.BcosBlockHeader;
 import org.fisco.bcos.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -581,6 +582,30 @@ public class FrontInterfaceService {
 
     public List<String> getNodeIdList(int groupId) {
         return frontRestTools.getForEntity(groupId, FrontRestTools.URI_NODEID_LIST, List.class);
-
     }
+
+     /**
+     * get block by number.
+     */
+    public BcosBlockHeader getBlockHeaderByNumber(Integer groupId, BigInteger blockNumber)
+        throws NodeMgrException {
+        log.debug("start getBlockHeaderByNumber groupId:{} blockNumber:{}", groupId, blockNumber);
+        String uri = String.format(FrontRestTools.URI_BLOCK_HEADER_BY_NUMBER, blockNumber);
+        BcosBlockHeader blockInfo = frontRestTools.getForEntity(groupId, uri, BcosBlockHeader.class);
+        log.debug("end getBlockHeaderByNumber");
+        return blockInfo;
+    }
+
+
+    /**
+     * request front for block by hash.
+     */
+    public BcosBlockHeader getBlockHeaderByHash(Integer groupId, String blockHash) throws NodeMgrException {
+        log.debug("start getBlockHeaderByHash. groupId:{}  blockHash:{}", groupId, blockHash);
+        String uri = String.format(FrontRestTools.URI_BLOCK_HEADER_BY_HASH, blockHash);
+        BcosBlockHeader blockInfo = frontRestTools.getForEntity(groupId, uri, BcosBlockHeader.class);
+        log.debug("end getBlockHeaderByHash. blockInfo:{}", JsonTools.toJSONString(blockInfo));
+        return blockInfo;
+    }
+
 }

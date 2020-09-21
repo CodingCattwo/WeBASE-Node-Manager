@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 import org.apache.commons.lang3.StringUtils;
+import org.fisco.bcos.web3j.protocol.core.methods.response.BcosBlockHeader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -338,5 +339,19 @@ public class BlockService {
     public TbBlock getBlockByBlockNumber(int groupId, BigInteger blockNumber) {
         return blockmapper.getBlockByBlockNumber(TableName.BLOCK.getTableName(groupId),
                 blockNumber);
+    }
+
+        /**
+     * get block by number from front
+     */
+    public BcosBlockHeader getBlockHeaderFromFrontByNumber(int groupId, BigInteger blockNumber) {
+        return frontInterface.getBlockHeaderByNumber(groupId, blockNumber);
+    }
+
+    /**
+     * get block header by hash from front
+     */
+    public BcosBlockHeader getBlockHeaderFromFrontByHash(int groupId, String pkHash) {
+        return frontInterface.getBlockHeaderByHash(groupId, pkHash);
     }
 }
